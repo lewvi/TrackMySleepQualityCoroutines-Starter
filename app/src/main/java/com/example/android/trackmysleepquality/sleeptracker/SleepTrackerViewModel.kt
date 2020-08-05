@@ -58,5 +58,18 @@ class SleepTrackerViewModel(
             night
         }
     }
+
+    fun onStartTracking() {
+        uiScope.launch {
+            val newNight = SleepNight()
+            tonight.value = getTonightFromDatabase()
+        }
+    }
+
+    private suspend fun insert(night: SleepNight) {
+        withContext(Dispatchers.IO) {
+            database.insert(night)
+        }
+    }
 }
 
